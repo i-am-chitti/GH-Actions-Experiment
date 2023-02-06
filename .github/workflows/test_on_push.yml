@@ -33,10 +33,10 @@ jobs:
               run: composer install --working-dir=app/plugins --prefer-dist --optimize-autoloader --no-progress --no-interaction --no-dev --no-plugins --no-scripts
 
             - name: Validate composer.json
-              run: composer --no-interaction validate --no-check-all
+              run: composer --working-dir=app/plugins --no-interaction validate --no-check-all
 
             - name: List installed composer packages
-              run: composer show -i -t
+              run: composer --working-dir=app/plugins show -i -t
 
             - name: Slack Notify
               uses: rtCamp/action-slack-notify@master
