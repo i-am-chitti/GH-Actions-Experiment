@@ -19,5 +19,8 @@
 	  "pre-commit": [
 		"npm run lint:staged"
 	  ]
+	},
+	"require": {
+		"phpoffice/phpspreadsheet": "^1.27"
 	}
   }
