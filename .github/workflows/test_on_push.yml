@@ -36,7 +36,7 @@ jobs:
               run: composer --no-interaction validate --no-check-all
 
             - name: List installed composer packages
-              run: composer show -i -t
+              run: composer show -i -t --all
 
             - name: Slack Notify
               uses: rtCamp/action-slack-notify@master
