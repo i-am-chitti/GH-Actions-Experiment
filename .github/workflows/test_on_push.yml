@@ -16,6 +16,7 @@ jobs:
               with:
                 php-version: '8.0'
                 coverage: none
+                tools: cs2pr
 
             - name: Get Composer Cache Directory
               id: composer-cache
@@ -33,6 +34,9 @@ jobs:
 
             - name: Validate composer.json
               run: composer --no-interaction validate --no-check-all
+
+            - name: List installed composer packages
+              run: composer show -i -t
 
             - name: Slack Notify
               uses: rtCamp/action-slack-notify@master
