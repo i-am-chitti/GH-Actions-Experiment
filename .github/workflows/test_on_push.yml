@@ -1,12 +1,18 @@
-on: push
-name: Slack Notification Demo
+name: Test on Push
+
+on:
+    push:
+        branches:
+            - main
+
+
 jobs:
   test:
-    name: Slack Notification
+    name: Test on push
     runs-on: ubuntu-latest
     steps:
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+    - name: Slack Notify
+      uses: rtCamp/action-slack-notify@master
       env:
         SLACK_CHANNEL: actions-notifyer
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
