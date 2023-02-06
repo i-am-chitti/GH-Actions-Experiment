@@ -1,46 +1,42 @@
 name: Test on Push
-
 on:
     push:
         branches:
             - main
-
-
 jobs:
-  test:
+    test:
+        name: Test on push
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-    - name: Checkout
-        uses: actions/checkout@v3
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: '8.0'
+                coverage: none
 
-    - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          coverage: none
+            - name: Get Composer Cache Directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)"
 
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: echo "dir=$(composer config cache-files-dir)"
+            - name: Configure Composer cache
+              uses: actions/cache@v3
+              with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                restore-keys: |
+                  ${{ runner.os }}-composer-
 
-    - name: Configure Composer cache
-      uses: actions/cache@v3
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
+            - name: Install Composer dependencies
+              run: composer install --prefer-dist --optimize-autoloader --no-progress --no-interaction
 
-    - name: Install Composer dependencies
-      run: composer install --prefer-dist --optimize-autoloader --no-progress --no-interaction
+            - name: Validate composer.json
+              run: composer --no-interaction validate --no-check-all
 
-    - name: Validate composer.json
-      run: composer --no-interaction validate --no-check-all
-
-    name: Test on push
-    runs-on: ubuntu-latest
-    steps:
-    - name: Slack Notify
-      uses: rtCamp/action-slack-notify@master
-      env:
-        SLACK_CHANNEL: actions-notifyer
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            - name: Slack Notify
+              uses: rtCamp/action-slack-notify@master
+              env:
+                SLACK_CHANNEL: actions-notifyer
+                SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
