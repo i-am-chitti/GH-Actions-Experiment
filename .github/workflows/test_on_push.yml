@@ -26,8 +26,7 @@ jobs:
               with:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-composer-
+                restore-keys: ${{ runner.os }}-composer-
 
             - name: Install Composer dependencies
               run: composer install --prefer-dist --optimize-autoloader --no-progress --no-interaction
