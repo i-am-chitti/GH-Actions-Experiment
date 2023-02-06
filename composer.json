@@ -10,6 +10,11 @@
 		"wp-phpunit/wp-phpunit": "^6.0",
 		"yoast/phpunit-polyfills": "^1.0"
 	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
 	"scripts": {
 	  "pre-commit": [
 		"npm run lint:staged"
